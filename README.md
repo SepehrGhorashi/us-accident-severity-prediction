@@ -10,7 +10,7 @@ Our first goal was to explore the dataset and understand its general structure, 
 
 `01_data_understanding.ipynb`
 
-After completing the analyses and investigations described in the notebook, we gained a better understanding of the dataset. We renamed the columns whose meanings could be identified and created a new file named `Initial_Dataset_With_Names.csv`.
+After completing the analyses and investigations described in the notebook, we gained a better understanding of the dataset. We renamed the columns whose meanings could be identified and created a new file named `initial_data_renamed.csv`.
 
 In the next step, we will continue working with this renamed dataset.
 
