@@ -15,3 +15,8 @@ After completing the analyses and investigations described in the notebook, we g
 In the next step, we will continue working with this renamed dataset.
 
 
+## Step 2: Data Processing and Feature Engineering
+
+
+- dont forget the 25 feature limitation that we had to follow!
+
