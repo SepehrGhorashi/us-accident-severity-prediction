@@ -91,3 +91,50 @@ The selected model was then retrained using the combined **train + validation da
 | Accuracy          | 0.8352 |
 
 The final classification results showed that although the dataset was strongly imbalanced, the tuned and weighted XGBoost model provided a considerably better balance between the majority and minority severity classes compared with the simpler baseline approaches.
+
+
+## Running the Final Model on New Data
+
+After completing the data understanding, preprocessing, feature engineering, and modeling stages, an additional notebook was created to make the final model usable on completely new raw data.
+
+This notebook is located at:
+
+`to_run_for_new_data/final.ipynb`
+
+The purpose of `final.ipynb` is to reproduce all necessary transformations from the previous stages and apply the trained **Tuned XGBoost** model to a new dataset.
+
+The new raw dataset should have the same original structure as `group_31_train.csv`. The notebook reads the new data, applies the required preprocessing and feature engineering steps, creates the same final 25 features used during training, and then uses the saved model to predict accident severity.
+
+Some information used during preprocessing must come from the original training data rather than being recalculated from the new data. Therefore, several supporting files were generated from the previous notebooks:
+
+* `01_data_understanding.ipynb` identified the meaning of several original columns and produced `initial_data_renamed.csv`. The same column-renaming logic is also applied to new raw data inside `final.ipynb`.
+
+* `02_data_processing.ipynb` produced `02_processing_params.pkl`, which stores preprocessing information learned from the training data, including missing-value imputation statistics, IQR limits, day/night modes, record-delay statistics, and standardization parameters.
+
+* `03_feature_engineering.ipynb` produced `03_feature_engineering_params.pkl`, which stores the training-based parameters required for address frequency encoding, hierarchical target encoding, and the final transformation of the address features.
+
+* `04_Modeling.ipynb` produced `final_tuned_xgboost.json`, containing the final Tuned XGBoost model trained on the combined **training + validation data**, and `final_xgboost_classes.npy`, which stores the mapping between XGBoost's encoded classes and the original severity labels.
+
+Therefore, the final prediction pipeline is approximately:
+
+```text
+New Raw Data
+     ↓
+Column Renaming
+     ↓
+Data Processing
+     ↓
+Train-based Preprocessing Parameters
+     ↓
+Feature Engineering
+     ↓
+Train-based Feature Engineering Parameters
+     ↓
+Final 25 Features
+     ↓
+Saved Tuned XGBoost Model
+     ↓
+Accident Severity Prediction
+```
+
+If the new dataset also contains the true target column `y`, `final.ipynb` can additionally evaluate the predictions using metrics such as **Macro F1, Weighted F1, Balanced Accuracy, Accuracy, Precision, Recall, and class-wise F1-score**.
